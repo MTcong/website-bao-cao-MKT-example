@@ -29,11 +29,11 @@ class User(db.Model, UserMixin):
 
     def create_admin():
         admin_user = User(
-                name='Vũ Hải Long',
-                email='vhlong1706@gmail.com',
+                name='admin',
+                email='admin@example.com',
                 phone='',
                 cccd='',
-                password=generate_password_hash('vhlong1706@gmail.com'),
+                password=generate_password_hash('admin@example.com'),
                 address='',
                 role='admin',
                 dob=date(2000, 1, 1),

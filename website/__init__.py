@@ -30,14 +30,14 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-        # try:
-        #     User.create_admin()
-        #     User.create_random_staffs()
-        #     Bank.create_bank_data()
-        #     User.create_random_staffs()
-        #     Post.create_random_post()
-        # except Exception as e:
-        #     print(f'Exception: {e}')
+        try:
+            User.create_admin()
+            User.create_random_staffs()
+            Bank.create_bank_data()
+            User.create_random_staffs()
+            Post.create_random_post()
+        except Exception as e:
+            print(f'Exception: {e}')
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
