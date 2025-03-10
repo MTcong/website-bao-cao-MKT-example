@@ -1,0 +1,187 @@
+{% extends "base.html" %} {% block title %}Hồ sơ{% endblock %} {% block content
+%}
+<h4 class="fw-bold py-3 mb-4">
+  <!-- <span class="text-muted fw-light">Account Settings /</span> -->
+  Hồ sơ
+</h4>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-4">
+      <h5 class="card-header">Chi tiết</h5>
+      <!-- Account -->
+      <form id="formAccountSettings" method="POST">
+        <div class="card-body">
+          <div class="d-flex align-items-start align-items-sm-center gap-4">
+            <img
+              src="{{ user.avatar_url }}"
+              alt="user-avatar"
+              class="d-block rounded"
+              height="100"
+              width="100"
+              id="uploadedAvatar"
+            />
+            <div class="button-wrapper">
+              <label
+                for="upload"
+                class="btn btn-primary me-2 mb-4"
+                tabindex="0"
+              >
+                <span class="d-none d-sm-block" id="uploadAvatar">Tải ảnh</span>
+                <i class="bx bx-upload d-block d-sm-none"></i>
+                <input
+                  type="file"
+                  id="upload"
+                  class="account-file-input"
+                  hidden=""
+                  accept="image/png, image/jpeg"
+                />
+                <input
+                  type="hidden"
+                  id="user_id"
+                  name="user_id"
+                  value="{{user.id}}"
+                />
+                <input
+                  type="hidden"
+                  id="avatar_url"
+                  name="avatar_url"
+                  value="{{user.avatar_url}}"
+                />
+              </label>
+              <button
+                id="resetAvatar"
+                type="button"
+                class="btn btn-outline-secondary account-image-reset mb-4"
+              >
+                <i class="bx bx-reset d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Đặt lại</span>
+              </button>
+
+              <p class="text-muted mb-0">
+                Ảnh có định dạng JPG, GIF hoặc PNG. Kích thước tối đa 1Mb
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr class="my-0" />
+        <div class="card-body">
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="name" class="form-label">Họ và tên</label>
+              <input
+                class="form-control"
+                type="text"
+                id="name"
+                name="name"
+                value="{{ user.name }}"
+              />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label class="form-label" for="cccd">Căn Cước Công Dân</label>
+              <div class="input-group input-group-merge">
+                <input
+                  type="text"
+                  id="cccd"
+                  name="cccd"
+                  class="form-control"
+                  value="{{ user.cccd }}"
+                />
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="email" class="form-label">Email</label>
+              <input
+                class="form-control"
+                type="email"
+                name="email"
+                id="email"
+                value="{{ user.email }}"
+              />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label class="form-label" for="phone">Điện thoại</label>
+              <div class="input-group input-group-merge">
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  class="form-control"
+                  value="{{user.phone}}"
+                />
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="address" class="form-label">Địa chỉ</label>
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                name="address"
+                value="{{user.address}}"
+              />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="dob" class="form-label">Ngày sinh</label>
+              <input
+                type="date"
+                id="dob"
+                name="dob"
+                class="form-control"
+                value="{{user.dob}}"
+              />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="stk" class="form-label">Số tài khoản</label>
+              <input
+                type="text"
+                id="stk"
+                name="stk"
+                class="form-control"
+                value="{{user.stk}}"
+              />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="bank_id" class="form-label">Ngân hàng</label>
+              <input
+                class="form-control"
+                list="browsers"
+                name="selected_bank"
+                id="selected_bank"
+                value="{{user_bank_shortName}}"
+              />
+              <datalist id="browsers">
+                {% for bank in bank_list %}
+                <option value="{{ bank.shortName }}" data-id="{{ bank.id }}">
+                  {{ bank.name }}
+                </option>
+                {% endfor %}
+              </datalist>
+              <input
+                type="hidden"
+                id="bank_id"
+                name="bank_id"
+                value="{{user.bank_id}}"
+              />
+            </div>
+            <div class="mt-2">
+              <button type="submit" class="btn btn-primary me-2">Lưu</button>
+              <button
+                type="reset"
+                class="btn btn-outline-secondary"
+                onclick="window.location.href='/';"
+              >
+                Huỷ
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endblock %} {% block customjs %}
+  <script
+    type="text/javascript"
+    src="{{ url_for('static',filename='js/profile.js') }}"
+  ></script>
+  {% endblock %}
+</div>

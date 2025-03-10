@@ -1,0 +1,342 @@
+{% extends "base.html" %} {% block title %}Báo cáo giờ{% endblock %} {% set
+menu_item = 'baocao' %} {% set active_page = 'bcgio' %} {% block content %}
+<h4 class="fw-bold py-3 mb-4">
+  <span class="text-muted fw-light">Báo cáo /</span>
+  Báo cáo giờ
+</h4>
+<div class="d-flex justify-content-end">
+  <button class="btn btn-outline-secondary btn-xs" onclick="lastDay()">
+    <i class="bx bx-chevron-left"></i>
+  </button>
+  <div class="col-xl-2">
+    <input class="form-control" type="date" id="dateInput" value="{{ddate}}" />
+  </div>
+  <button class="btn btn-outline-secondary btn-xs" onclick="nextDay()">
+    <i class="bx bx-chevron-right"></i>
+  </button>
+</div>
+<div class="table-responsive">
+  <h5 class="card-header text-center">Báo cáo 11h30</h5>
+  <table id="dataTable1" class="table table-striped">
+    <thead>
+      <tr>
+        <th>MKT</th>
+        <th>Tổng chi phí</th>
+        <th>Số data</th>
+        <th>Giá data</th>
+        <th>Doanh số</th>
+        <th>CPQC</th>
+        <th>ROAT</th>
+      </tr>
+    </thead>
+    <tbody id="body-table" class="table-border-bottom-0">
+      {% for staff in staff_list %} {% for report in report_list %} {% if
+      report.user_id == staff.id and report.time == '1130' %}
+      <tr class="table-light">
+        <th>
+          <a href="/user/{{staff.id}}">
+            <img
+              src="{{staff.avatar_url}}"
+              class="w-px-40 h-auto rounded-circle me-2"
+            />
+            {{staff.name}}</a
+          >
+        </th>
+        <th>{{report.cost}} VND</th>
+        <th>{{report.phoneNumber}}</th>
+        <th>{{report.costPerPhone}} VND</th>
+        <th>{{report.revenue}} VND</th>
+        <th>{{report.cpqc}}%</th>
+        <th>{{report.roat}}</th>
+      </tr>
+      {%endif%} {%endfor%} {%endfor%}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Tổng</th>
+        <th id="total-cost1"></th>
+        <th id="total-phoneNumber1"></th>
+        <th id="total-costPerPhone1"></th>
+        <th id="total-revenue1"></th>
+        <th id="total-cpqc1"></th>
+        <th id="total-roat1"></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+{% if render_table == 2 %}
+<div class="d-flex justify-content-end">
+  <button
+    data-bs-toggle="modal"
+    data-bs-target="#report1"
+    class="btn btn-primary"
+  >
+    Báo cáo
+  </button>
+</div>
+{% endif %}
+<div class="table-responsive">
+  <h5 class="card-header text-center">Báo cáo 17h00</h5>
+  <table id="dataTable2" class="table table-striped">
+    <thead>
+      <tr>
+        <th>MKT</th>
+        <th>Tổng chi phí</th>
+        <th>Số data</th>
+        <th>Giá data</th>
+        <th>Doanh số</th>
+        <th>CPQC</th>
+        <th>ROAT</th>
+      </tr>
+    </thead>
+    <tbody id="body-table" class="table-border-bottom-0">
+      {% for staff in staff_list %} {% for report in report_list %} {% if
+      report.user_id == staff.id and report.time == '1700' %}
+      <tr class="table-light">
+        <th>
+          <a href="/user/{{staff.id}}">
+            <img
+              src="{{staff.avatar_url}}"
+              class="w-px-40 h-auto rounded-circle me-2"
+            />
+            {{staff.name}}</a
+          >
+        </th>
+        <th>{{report.cost}} VND</th>
+        <th>{{report.phoneNumber}}</th>
+        <th>{{report.costPerPhone}} VND</th>
+        <th>{{report.revenue}} VND</th>
+        <th>{{report.cpqc}}%</th>
+        <th>{{report.roat}}</th>
+      </tr>
+      {%endif%} {%endfor%} {%endfor%}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Tổng</th>
+        <th id="total-cost2"></th>
+        <th id="total-phoneNumber2"></th>
+        <th id="total-costPerPhone2"></th>
+        <th id="total-revenue2"></th>
+        <th id="total-cpqc2"></th>
+        <th id="total-roat2"></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+{% if render_table >=1 %}
+<div class="d-flex justify-content-end">
+  <button
+    data-bs-toggle="modal"
+    data-bs-target="#report2"
+    class="btn btn-primary"
+  >
+    Báo cáo
+  </button>
+</div>
+{% endif %} {% endblock %} {% block modal %}
+<div
+  class="modal fade"
+  id="report1"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="report-title">Báo cáo 11h30</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-1130"
+        />
+        <input
+          type="hidden"
+          name="user_id"
+          class="form-control"
+          value="{{user.id}}"
+        />
+        {% for report in report_list %} {% if report.user_id == user.id and
+        report.time == '1130' %}
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Chi phí</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="cost"
+                name="cost"
+                class="form-control"
+                min="0"
+                value="{{report.cost.replace(',', '')}}"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Số điện thoại</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="phoneNumber"
+                name="phoneNumber"
+                class="form-control"
+                min="0"
+                value="{{report.phoneNumber}}"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Doanh số</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="revenue"
+                name="revenue"
+                class="form-control"
+                min="0"
+                value="{{report.revenue.replace(',', '')}}"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        {%endif%} {%endfor%}
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="report2"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="report-title">Báo cáo 17h00</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-1700"
+        />
+        <input
+          type="hidden"
+          name="user_id"
+          class="form-control"
+          value="{{user.id}}"
+        />
+        {% for report in report_list %} {% if report.user_id == user.id and
+        report.time == '1700' %}
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Chi phí</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="cost"
+                name="cost"
+                class="form-control"
+                min="0"
+                value="{{report.cost.replace(',', '')}}"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Số điện thoại</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="phoneNumber"
+                name="phoneNumber"
+                class="form-control"
+                min="0"
+                value="{{report.phoneNumber}}"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Doanh số</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="revenue"
+                name="revenue"
+                class="form-control"
+                min="0"
+                value="{{report.revenue.replace(',', '')}}"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        {%endif%} {%endfor%}
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block customjs %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/bao-cao-gio.js') }}"
+></script>
+{% endblock %}

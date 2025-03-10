@@ -1,0 +1,398 @@
+{% extends "base.html" %} {% block title %}Nhân viên{% endblock %} {% set
+menu_item = 'ql' %} {% set active_page = 'staff' %} {% block content %}
+<h4 class="fw-bold py-3 mb-4" id="page-title">
+  <span class="text-muted fw-light">Quản lý /</span>
+  Nhân viên
+</h4>
+<div class="d-flex justify-content-end">
+  <button
+    type="button"
+    class="btn btn-primary me-2"
+    data-bs-toggle="modal"
+    data-bs-target="#new-staff"
+  >
+    <i class="bx bx-plus-medical bx-sd me-1"></i>Thêm nhân viên
+  </button>
+  <div class="btn-group">
+    <button
+      type="button"
+      class="btn btn-outline-primary dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-expanded="true"
+    >
+      <i class="bx bxs-file-export bx-sd me-1"></i>Xuất file
+    </button>
+    <ul
+      class="dropdown-menu"
+      data-popper-placement="bottom-start"
+      style="
+        position: absolute;
+        inset: 0px auto auto 0px;
+        margin: 0px;
+        transform: translate(0px, 40px);
+      "
+    >
+      <li>
+        <a class="dropdown-item" href="javascript:void(0);" id="printButton"
+          ><i class="bx bxs-printer bx-sd me-2"></i>print</a
+        >
+      </li>
+      <li>
+        <a class="dropdown-item" href="javascript:void(0);" id="csvButton"
+          ><i class="bx bxs-file-pdf bx-sd me-2"></i>.csv</a
+        >
+      </li>
+      <li>
+        <a class="dropdown-item" href="javascript:void(0);" id="excelButton"
+          ><i class="bx bxs-file-export bx-sd me-2"></i>excel</a
+        >
+      </li>
+      <li>
+        <a class="dropdown-item" href="javascript:void(0);" id="copyButton"
+          ><i class="bx bxs-copy bx-sd me-2"></i>copy</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="table-responsive">
+  <table id="dataTable" class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tên nhân viên</th>
+        <th>Địa chỉ</th>
+        <th>SĐT</th>
+        <th>CCCD</th>
+        <th>Email</th>
+        <th>Ngày sinh</th>
+        <th>Số tài khoản</th>
+        <th>Ngân hàng</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody id="body-table" class="table-border-bottom-0">
+      {% for staff in staff_list %}
+      <tr class="table-light">
+        <th>{{staff.id}}</th>
+        <th>
+          <a href="/staff/{{staff.id}}">
+            <img
+              src="{{staff.avatar_url}}"
+              class="w-px-40 h-auto rounded-circle me-2"
+            />
+            {{staff.name}}</a
+          >
+        </th>
+        <th>{{staff.address}}</th>
+        <th>{{staff.phone}}</th>
+        <th>{{staff.cccd}}</th>
+        <th>{{staff.email}}</th>
+        <th>{{staff.dob}}</th>
+        <th>{{staff.stk}}</th>
+        <th>{{staff.bank_shortName}}</th>
+        <th>
+          <div class="dropdown">
+            <button
+              type="button"
+              class="btn p-0 dropdown-toggle hide-arrow"
+              data-bs-toggle="dropdown"
+            >
+              <i class="bx bx-dots-vertical-rounded"></i>
+            </button>
+            <div class="dropdown-menu">
+              <a
+                class="dropdown-item"
+                href="javascript:void(0);"
+                onclick="resetPasswordStaff({{staff.id}})"
+                ><i class='bx bx-cog me-1'></i></i> Đặt lại mật khẩu</a
+              >
+              <a  
+                class="dropdown-item"
+                href="javascript:void(0);"
+                data-bs-toggle="modal"
+                data-bs-target="#edit-staff"
+                onclick="editStaff({{staff}})"
+                ><i class="bx bx-edit-alt me-1"></i> Sửa</a
+              >
+              <a
+                class="dropdown-item"
+                href="javascript:void(0);"
+                onclick="deleteStaff({{staff.id}})"
+                ><i class="bx bx-trash me-1"></i> Xoá</a
+              >
+            </div>
+          </div>
+        </th>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+{% endblock %} {% block modal %}
+<div
+  class="modal fade"
+  id="new-staff"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="new-staff-title">Thêm nhân viên mới</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-add"
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label for="name" class="form-label">Tên nhân viên</label>
+            <input type="text" id="name" name="name" class="form-control" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="address" class="form-label">Địa chỉ</label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label for="phone" class="form-label">Số điện thoại</label>
+            <div class="input-group input-group-merge">
+              <input type="text" id="phone" name="phone" class="form-control" />
+            </div>
+          </div>
+          <div class="col mb-3">
+            <label for="cccd" class="form-label">Căn cước công dân</label>
+            <input type="text" id="cccd" name="cccd" class="form-control" />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-0">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              placeholder="xxxx@xxx.xx"
+            />
+          </div>
+          <div class="col mb-3">
+            <label for="dob" class="form-label">Ngày sinh</label>
+            <input type="date" id="dob" name="dob" class="form-control" />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-0">
+            <label for="stk" class="form-label">Số tài khoản</label>
+            <input type="text" id="stk" name="stk" class="form-control" />
+          </div>
+          <div class="col mb-0">
+            <label for="bank_id" class="form-label">Ngân hàng</label>
+            <input
+              class="form-control"
+              list="browsers"
+              name="selected_bank"
+              id="selected_bank"
+            />
+            <datalist id="browsers">
+              {% for bank in bank_list %}
+              <option value="{{ bank.shortName }}" data-id="{{ bank.id }}">
+                {{ bank.name }}
+              </option>
+              {% endfor %}
+            </datalist>
+            <input type="hidden" id="bank_id" name="bank_id" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="edit-staff"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit-customer-title">
+          Chỉnh sửa thông tin nhân viên
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-edit"
+        />
+        <input
+          type="hidden"
+          id="edit-id"
+          name="edit-id"
+          class="form-control"
+          value=""
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label for="edit-name" class="form-label">Tên nhân viên</label>
+            <input
+              type="text"
+              id="edit-name"
+              name="edit-name"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="edit-address" class="form-label">Địa chỉ</label>
+            <input
+              type="text"
+              id="edit-address"
+              name="edit-address"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label for="edit-phone" class="form-label">Số điện thoại</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="edit-phone"
+                name="edit-phone"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="col mb-3">
+            <label for="edit-cccd" class="form-label">Căn cước công dân</label>
+            <input
+              type="text"
+              id="edit-cccd"
+              name="edit-cccd"
+              class="form-control"
+              placeholder="000 000 000 000"
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-0">
+            <label for="edit-email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="edit-email"
+              name="edit-email"
+              class="form-control"
+              placeholder="xxxx@xxx.xx"
+            />
+          </div>
+          <div class="col mb-3">
+            <label for="dob" class="form-label">Ngày sinh</label>
+            <input
+              type="date"
+              id="edit-dob"
+              name="edit-dob"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-0">
+            <label for="stk" class="form-label">Số tài khoản</label>
+            <input
+              type="text"
+              id="edit-stk"
+              name="edit-stk"
+              class="form-control"
+            />
+          </div>
+          <div class="col mb-0">
+            <label for="bank_id" class="form-label">Ngân hàng</label>
+            <input
+              class="form-control"
+              list="edit-browsers"
+              name="edit-selected_bank"
+              id="edit-selected_bank"
+            />
+            <datalist id="edit-browsers">
+              {% for bank in bank_list %}
+              <option value="{{ bank.shortName }}" data-id="{{ bank.id }}">
+                {{ bank.name }}
+              </option>
+              {% endfor %}
+            </datalist>
+            <input type="hidden" id="edit-bank_id" name="edit-bank_id" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block customjs %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/dataTable.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/staff.js') }}"
+></script>
+{% endblock %}

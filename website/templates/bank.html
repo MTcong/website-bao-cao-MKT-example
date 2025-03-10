@@ -1,0 +1,339 @@
+{% extends "base.html" %} {% block title %}Ngân hàng{% endblock %} {% set
+menu_item = 'ql' %} {% set active_page = 'bank' %} {% block content %}
+<h4 class="fw-bold py-3 mb-4" id="page-title">
+  <span class="text-muted fw-light">Quản lý /</span>
+  Ngân Hàng
+</h4>
+<div class="d-flex justify-content-end">
+  <button
+    type="button"
+    class="btn btn-primary me-2"
+    data-bs-toggle="modal"
+    data-bs-target="#new-bank"
+  >
+    <i class="bx bx-plus-medical bx-sd me-1"></i>Thêm ngân hàng
+  </button>
+  <div class="btn-group">
+    <button
+      type="button"
+      class="btn btn-outline-primary dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-expanded="true"
+    >
+      <i class="bx bxs-file-export bx-sd me-1"></i>Xuất file
+    </button>
+    <ul
+      class="dropdown-menu"
+      data-popper-placement="bottom-start"
+      style="
+        position: absolute;
+        inset: 0px auto auto 0px;
+        margin: 0px;
+        transform: translate(0px, 40px);
+      "
+    >
+    <li>
+      <a class="dropdown-item" href="javascript:void(0);" id="printButton"
+        ><i class="bx bxs-printer bx-sd me-2"></i>print</a
+      >
+    </li>
+      <li>
+        <a class="dropdown-item" href="javascript:void(0);" id="csvButton"
+          ><i class="bx bxs-file-pdf bx-sd me-2"></i>.csv</a
+        >
+      </li>
+      <li>
+        <a class="dropdown-item" href="javascript:void(0);" id="excelButton"
+          ><i class="bx bxs-file-export bx-sd me-2"></i>excel</a
+        >
+      </li>
+      <li>
+        <a class="dropdown-item" href="javascript:void(0);" id="copyButton"
+          ><i class="bx bxs-copy bx-sd me-2"></i>copy</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="table-responsive">
+  <table id="dataTable" class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Ngân hàng</th>
+        <th>Tên thường gọi</th>
+        <th>Mã giao dịch</th>
+        <th>Tên ngân hàng</th>
+        <th>BIN</th>
+        <th>Swift code</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody id="body-table" class="table-border-bottom-0">
+      {% for bank in bank_list %}
+      <tr class="table-light">
+        <th>{{bank.id}}</th>
+        <th>
+          <img
+            src="{{bank.logo}}"
+            style="max-width: 200px; max-height: 200px"
+            class="me-1"
+          />
+        </th>
+        <th>{{bank.shortName}}</th>
+        <th>{{bank.code}}</th>
+        <th>{{bank.name}}</th>
+        <th>{{bank.bin}}</th>
+        <th>{{bank.swift_code}}</th>
+        <th>
+          <div class="dropdown">
+            <button
+              type="button"
+              class="btn p-0 dropdown-toggle hide-arrow"
+              data-bs-toggle="dropdown"
+            >
+              <i class="bx bx-dots-vertical-rounded"></i>
+            </button>
+            <div class="dropdown-menu">
+              <a
+                class="dropdown-item"
+                href="javascript:void(0);"
+                data-bs-toggle="modal"
+            data-bs-target="#edit-bank"
+            onclick="editBank({{bank}})"
+                ><i class="bx bx-edit-alt me-1"></i> Sửa</a
+              >
+              <a
+                class="dropdown-item"
+                href="javascript:void(0);"
+                onclick="deleteBank({{bank.id}})"
+                ><i class="bx bx-trash me-1"></i> Xoá</a
+              >
+            </div>
+          </div>
+        </th>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+{% endblock %} {% block modal %}
+<div
+  class="modal fade"
+  id="new-bank"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="new-bank-title">Thêm ngân hàng mới</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-add"
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label for="name" class="form-label">Tên ngân hàng</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-control"
+              placeholder="Nhập tên ngân hàng..."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="shortName" class="form-label">Tên thường gọi</label>
+            <input
+              type="text"
+              id="shortName"
+              name="shortName"
+              class="form-control"
+              placeholder="Nhập tên thường gọi..."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="code" class="form-label">Mã giao dịch</label>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              class="form-control"
+              placeholder="Nhập mã ngân hàng..."
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label for="bin" class="form-label">BIN</label>
+            <input
+              type="text"
+              id="bin"
+              name="bin"
+              class="form-control"
+              placeholder="Nhập BIN ngân hàng..."
+            />
+          </div>
+          <div class="col mb-3">
+            <label for="swift_code" class="form-label">Swift code</label>
+            <input
+              type="text"
+              id="swift_code"
+              name="swift_code"
+              class="form-control"
+              placeholder="Nhập swift code ngân hàng..."
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="edit-bank"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit-bank-title">
+          Chỉnh sửa thông tin ngân hàng
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-edit"
+        />
+        <input
+          type="hidden"
+          id="edit-id"
+          name="edit-id"
+          class="form-control"
+          value=""
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label for="edit-name" class="form-label">Tên ngân hàng</label>
+            <input
+              type="text"
+              id="edit-name"
+              name="edit-name"
+              class="form-control"
+              placeholder="Nhập tên ngân hàng..."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="edit-shortName" class="form-label">Tên thường gọi</label>
+            <input
+              type="text"
+              id="edit-shortName"
+              name="edit-shortName"
+              class="form-control"
+              placeholder="Nhập tên thường gọi..."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="edit-code" class="form-label">Mã giao dịch</label>
+            <input
+              type="text"
+              id="edit-code"
+              name="edit-code"
+              class="form-control"
+              placeholder="Nhập mã ngân hàng..."
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label for="bin" class="form-label">BIN</label>
+            <input
+              type="text"
+              id="edit-bin"
+              name="edit-bin"
+              class="form-control"
+              placeholder="Nhập BIN ngân hàng..."
+            />
+          </div>
+          <div class="col mb-3">
+            <label for="edit-swift_code" class="form-label">Swift code</label>
+            <input
+              type="text"
+              id="edit-swift_code"
+              name="edit-swift_code"
+              class="form-control"
+              placeholder="Nhập swift code ngân hàng..."
+            />
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block customjs %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/dataTable.js') }}"
+></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/bank.js') }}"
+></script>
+{% endblock %}

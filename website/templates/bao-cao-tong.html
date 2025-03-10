@@ -1,0 +1,216 @@
+{% extends "base.html" %} {% block title %}Báo cáo tổng{% endblock %} {% set
+menu_item = 'baocao' %} {% set active_page = 'bctong' %} {% block content %}
+<h4 class="fw-bold py-3 mb-4">
+  <span class="text-muted fw-light">Báo cáo /</span>
+  Báo cáo tổng
+</h4>
+<form method="POST">
+  <input
+    type="hidden"
+    name="form_id"
+    class="form-control"
+    value="form-date-filter"
+  />
+  <div class="d-flex justify-content-end">
+    <div class="col-xl-2 me-2">
+      <div class="input-group input-group-merge">
+        <span class="input-group-text">Từ:</span>
+        <input
+          class="form-control"
+          type="date"
+          id="dateInput1"
+          name="dateInput1"
+          value="{{date1}}"
+        />
+      </div>
+    </div>
+    <div class="col-xl-2 me-2">
+      <div class="input-group input-group-merge">
+        <span class="input-group-text">Đến:</span>
+        <input
+          class="form-control"
+          type="date"
+          id="dateInput2"
+          name="dateInput2"
+          value="{{date2}}"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Lọc</button>
+  </div>
+</form>
+<div class="table-responsive">
+  <table id="dataTable1" class="table table-striped">
+    <thead>
+      <tr>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tên MKT</span>"
+        >
+          MKT
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Doanh số tổng = Doanh số Facebook + Doanh số Shopee - Hoàn</span>"
+        >
+          DST
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Doanh số Facebook</span>"
+        >
+          DSFB
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Doanh số Shopee</span>"
+        >
+          DSSP
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tiền ứng</span>"
+        >
+          Tiền ứng
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tiền thực chạy</span>"
+        >
+          Tiền thực chạy
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Giá số (thực) = Tiền thực chạy / Data</span>"
+        >
+          Giá số (thực)
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>%CPQC = Tiền ứng / Doanh số tổng (DST)</span>"
+        >
+          %CPQC
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Data</span>"
+        >
+          Data
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tỷ lệ xin số = Data / Mess</span>"
+        >
+          TLXS
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Mess</span>"
+        >
+          Mess
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Giá mess = Tiền thực chạy / Mess</span>"
+        >
+          Giá mess
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Hoàn</span>"
+        >
+          Hoàn
+        </th>
+      </tr>
+    </thead>
+    <tbody id="body-table" class="table-border-bottom-0">
+      {% for staff in staff_list %}
+      <tr class="table-light">
+        <th>
+          <a href="/user/{{staff.id}}">
+            <img
+              src="{{staff.avatar_url}}"
+              class="w-px-40 h-auto rounded-circle me-2"
+            />
+            {{staff.name}}</a
+          >
+        </th>
+        <th>{{staff.totalRevenue}} VND</th>
+        <th>{{staff.newRevenue}} VND</th>
+        <th>{{staff.shopeeRevenue}} VND</th>
+        <th>{{staff.advanceBudget}} VND</th>
+        <th>{{staff.realBudget}} VND</th>
+        <th>{{staff.cpp}} VND</th>
+        <th>{{staff.cpr}}%</th>
+        <th>{{staff.phoneNumber}}</th>
+        <th>{{staff.ppm}}%</th>
+        <th>{{staff.mess}}</th>
+        <th>{{staff.bpm}} VND</th>
+        <th>{{staff.refund}} VND</th>
+      </tr>
+      {%endfor%}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Tổng</th>
+        <th id="total-totalRevenue"></th>
+        <th id="total-newRevenue"></th>
+        <th id="total-shopeeRevenue"></th>
+        <th id="total-advanceBudget"></th>
+        <th id="total-realBudget"></th>
+        <th id="total-cpp"></th>
+        <th id="total-cpr"></th>
+        <th id="total-phoneNumber"></th>
+        <th id="total-ppm"></th>
+        <th id="total-mess"></th>
+        <th id="total-bpm"></th>
+        <th id="total-refund"></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+{% endblock %} {% block modal %} {% endblock %} {% block customjs %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/bao-cao-ngay.js') }}"
+></script>
+{% endblock %}

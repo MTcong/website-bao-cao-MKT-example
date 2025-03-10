@@ -1,0 +1,246 @@
+{% extends "base.html" %} {% block title %}Nhân viên{% endblock %} {% set
+menu_item = 'ql' %} {% set active_page = 'staff' %} {% block content %}
+<h4 class="fw-bold py-3 mb-4">
+  <span class="text-muted fw-light">Quản lý /</span>
+  <a href="/staff">Nhân viên</a> / {{staff.name}}
+</h4>
+
+<div class="card-body text-center" style="padding: 0">
+  <div class="table-responsive text-nowrap">
+    <table class="table table-bordered table-light">
+      <tr>
+        <th>Tên nhà cung cấp</th>
+        <th>{{staff.name}}</th>
+      </tr>
+      <tr>
+        <th>Địa chỉ</th>
+        <th>{{staff.address}}</th>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <th>{{staff.email}}</th>
+      </tr>
+      <tr>
+        <th>Điện thoại</th>
+        <th>{{staff.phone}}</th>
+      </tr>
+      <tr>
+        <th>Căn cước công dân</th>
+        <th>{{staff.cccd}}</th>
+      </tr>
+      <tr>
+        <th>Ngày sinh</th>
+        <th>{{staff.dob}}</th>
+      </tr>
+      <tr>
+        <th>Số tài khoản</th>
+        <th>{{staff.stk}}</th>
+      </tr>
+      <tr>
+        <th>Ngân hàng</th>
+        <th>{{staff.bank_shortName}}</th>
+      </tr>
+    </table>
+  </div>
+
+  <button
+    type="button"
+    class="btn btn-primary me-2"
+    data-bs-toggle="modal"
+    data-bs-target="#edit-staff"
+    onclick="editStaff({{staff}})"
+  >
+    Chỉnh sửa
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-danger"
+    onclick="deleteStaff({{staff.id}})"
+  >
+    Xoá
+  </button>
+</div>
+
+{% if staff.stk != '' %}
+<div class="card-body text-center">
+  <h2>Chuyển khoản nhanh</h2>
+  <p style="color: green">Mã chuyển khoản được tạo từ thông tin nhân viên</p>
+  <img
+    class="mb-4"
+    style="max-width: 300px; max-height: 300px"
+    src="https://img.vietqr.io/image/{{staff.bank_bin}}-{{staff.stk}}-compact.jpg"
+  />
+  <!-- <div class="table-responsive text-nowrap">
+    <table class="table table-bordered table-light">
+      <tr>
+        <th>Ngân hàng</th>
+        <th><input class="form-control" value="{{staff.bank_shortName}}" /></th>
+      </tr>
+      <tr>
+        <th>Số tài khoản</th>
+        <th><input class="form-control" value="{{staff.stk}}" /></th>
+      </tr>
+      <tr>
+        <th>Số tiền</th>
+        <th>
+          <input class="form-control" type="number" />
+        </th>
+      </tr>
+      <tr>
+        <th>Nội dung chuyển khoản</th>
+        <th><input class="form-control" type="text" /></th>
+      </tr>
+    </table>
+  </div> -->
+</div>
+{% endif %} {% endblock %} {% block modal %}
+<div
+  class="modal fade"
+  id="edit-staff"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit-customer-title">
+          Chỉnh sửa thông tin nhân viên
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-edit"
+        />
+        <input
+          type="hidden"
+          id="edit-id"
+          name="edit-id"
+          class="form-control"
+          value=""
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label for="edit-name" class="form-label">Tên nhân viên</label>
+            <input
+              type="text"
+              id="edit-name"
+              name="edit-name"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="edit-address" class="form-label">Địa chỉ</label>
+            <input
+              type="text"
+              id="edit-address"
+              name="edit-address"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label for="edit-phone" class="form-label">Số điện thoại</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="edit-phone"
+                name="edit-phone"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="col mb-3">
+            <label for="edit-cccd" class="form-label">Căn cước công dân</label>
+            <input
+              type="text"
+              id="edit-cccd"
+              name="edit-cccd"
+              class="form-control"
+              placeholder="000 000 000 000"
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-0">
+            <label for="edit-email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="edit-email"
+              name="edit-email"
+              class="form-control"
+              placeholder="xxxx@xxx.xx"
+            />
+          </div>
+          <div class="col mb-3">
+            <label for="dob" class="form-label">Ngày sinh</label>
+            <input
+              type="date"
+              id="edit-dob"
+              name="edit-dob"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-0">
+            <label for="stk" class="form-label">Số tài khoản</label>
+            <input
+              type="text"
+              id="edit-stk"
+              name="edit-stk"
+              class="form-control"
+            />
+          </div>
+          <div class="col mb-0">
+            <label for="bank_id" class="form-label">Ngân hàng</label>
+            <input
+              class="form-control"
+              list="edit-browsers"
+              name="edit-selected_bank"
+              id="edit-selected_bank"
+            />
+            <datalist id="edit-browsers">
+              {% for bank in bank_list %}
+              <option value="{{ bank.shortName }}" data-id="{{ bank.id }}">
+                {{ bank.name }}
+              </option>
+              {% endfor %}
+            </datalist>
+            <input type="hidden" id="edit-bank_id" name="edit-bank_id" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block customjs %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/staffDetails.js') }}"
+></script>
+{% endblock %}

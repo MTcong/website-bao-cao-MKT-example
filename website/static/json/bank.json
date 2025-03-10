@@ -1,0 +1,371 @@
+[
+    {
+      "id": 1,
+      "short_name": "Agribank",
+      "bank_code": "Agribank",
+      "name_vn": "Nông nghiệp và Phát triển Nông thôn Việt Nam",
+      "name_en": "Vietnam Bank for Agriculture and Rural Development, LLC",
+      "bank_url": "http://agribank.com.vn"
+    },
+    {
+      "id": 2,
+      "short_name": "CB",
+      "bank_code": "CB",
+      "name_vn": "Xây dựng Việt Nam",
+      "name_en": "Vietnam Construction Bank, LLC",
+      "bank_url": "http://www.cbbank.vn"
+    },
+    {
+      "id": 3,
+      "short_name": "Oceanbank",
+      "bank_code": "Oceanbank",
+      "name_vn": "Đại Dương",
+      "name_en": "Ocean Bank, LLC",
+      "bank_url": "http://www.oceanbank.vn"
+    },
+    {
+      "id": 4,
+      "short_name": "GPBank",
+      "bank_code": "GPBank",
+      "name_vn": "Dầu khí Toàn cầu",
+      "name_en": "Global Petro Bank, LLC",
+      "bank_url": "http://www.gpbank.com.vn"
+    },
+    {
+      "id": 5,
+      "short_name": "VPBank",
+      "bank_code": "VPB",
+      "name_vn": "Việt Nam Thịnh vượng",
+      "name_en": "Vietnam Prosperity Bank, JSC",
+      "bank_url": "http://www.vpbank.com.vn"
+    },
+    {
+      "id": 6,
+      "short_name": "Techcombank",
+      "bank_code": "TCB",
+      "name_vn": "Kỹ thương Việt Nam",
+      "name_en": "Vietnam Technological and Commercial Bank, JSC",
+      "bank_url": "http://www.techcombank.com.vn"
+    },
+    {
+      "id": 7,
+      "short_name": "BIDV",
+      "bank_code": "BID",
+      "name_vn": "Đầu tư và Phát triển Việt Nam",
+      "name_en": "Bank for Investment and Development of Vietnam, JSC",
+      "bank_url": "http://bidv.com.vn"
+    },
+    {
+      "id": 8,
+      "short_name": "Vietcombank",
+      "bank_code": "VCB",
+      "name_vn": "Ngoại thương Việt Nam",
+      "name_en": "Bank for Foreign Trade of Vietnam, JSC",
+      "bank_url": "https://portal.vietcombank.com.vn"
+    },
+    {
+      "id": 9,
+      "short_name": "VietinBank",
+      "bank_code": "CTG",
+      "name_vn": "Công thương Việt Nam",
+      "name_en": "Vietnam Bank for Industry and Trade, JSC",
+      "bank_url": "http://vietinbank.vn"
+    },
+    {
+      "id": 10,
+      "short_name": "MBBank",
+      "bank_code": "MBB",
+      "name_vn": "Quân đội",
+      "name_en": "Military Bank, JSC",
+      "bank_url": "https://www.mbbank.com.vn"
+    },
+    {
+      "id": 11,
+      "short_name": "ACB",
+      "bank_code": "ACB",
+      "name_vn": "Á Châu",
+      "name_en": "Asia Commercial Bank, JSC",
+      "bank_url": "https://www.acb.com.vn"
+    },
+    {
+      "id": 12,
+      "short_name": "SHB",
+      "bank_code": "SHB",
+      "name_vn": "Sài Gòn – Hà Nội",
+      "name_en": "Saigon – Hanoi Bank, JSC",
+      "bank_url": "http://shb.com.vn"
+    },
+    {
+      "id": 13,
+      "short_name": "VIB",
+      "bank_code": "VIB",
+      "name_vn": "Quốc tế Việt Nam",
+      "name_en": "Vietnam International Bank, JSC",
+      "bank_url": "http://www.vib.com.vn"
+    },
+    {
+      "id": 14,
+      "short_name": "HDBank",
+      "bank_code": "HDB",
+      "name_vn": "Phát triển Thành phố Hồ Chí Minh",
+      "name_en": "Ho Chi Minh City Development Bank, JSC",
+      "bank_url": "http://www.hdbank.com.vn"
+    },
+    {
+      "id": 15,
+      "short_name": "SeABank",
+      "bank_code": "SSB",
+      "name_vn": "Đông Nam Á",
+      "name_en": "Southeast Asia Bank, JSC",
+      "bank_url": "https://www.seabank.com.vn"
+    },
+    {
+      "id": 16,
+      "short_name": "TPBank",
+      "bank_code": "TPB",
+      "name_vn": "Tiên Phong",
+      "name_en": "Tien Phong Bank, JSC",
+      "bank_url": "http://www.tpb.vn"
+    },
+    {
+      "id": 17,
+      "short_name": "LPBank",
+      "bank_code": "LPB",
+      "name_vn": "Lộc Phát Việt Nam",
+      "name_en": "Fortune Vietnam Bank, JSC",
+      "bank_url": "https://lpbank.com.vn"
+    },
+    {
+      "id": 18,
+      "short_name": "OCB",
+      "bank_code": "OCB",
+      "name_vn": "Phương Đông",
+      "name_en": "Orient Commercial Bank, JSC",
+      "bank_url": "http://www.ocb.com.vn"
+    },
+    {
+      "id": 19,
+      "short_name": "SCB",
+      "bank_code": "SCB",
+      "name_vn": "Sài Gòn",
+      "name_en": "Saigon Commercial Bank, JSC",
+      "bank_url": "https://www.scb.com.vn"
+    },
+    {
+      "id": 20,
+      "short_name": "MSB",
+      "bank_code": "MSB",
+      "name_vn": "Hàng hải Việt Nam",
+      "name_en": "Vietnam Maritime Joint Stock Commercial Bank",
+      "bank_url": "http://www.msb.com.vn"
+    },
+    {
+      "id": 21,
+      "short_name": "Sacombank",
+      "bank_code": "STB",
+      "name_vn": "Sài Gòn Thương tín",
+      "name_en": "Sai Gon Thuong Tin Joint Stock Commercial Bank",
+      "bank_url": "http://www.sacombank.com.vn"
+    },
+    {
+      "id": 22,
+      "short_name": "Eximbank",
+      "bank_code": "EIB",
+      "name_vn": "Xuất nhập khẩu Việt Nam",
+      "name_en": "Vietnam Export-Import Bank, JSC",
+      "bank_url": "https://www.eximbank.com.vn"
+    },
+    {
+      "id": 23,
+      "short_name": "Nam A Bank",
+      "bank_code": "NAB",
+      "name_vn": "Nam Á",
+      "name_en": "Nam A Bank, JSC",
+      "bank_url": "https://www.namabank.com.vn"
+    },
+    {
+      "id": 24,
+      "short_name": "ABBANK",
+      "bank_code": "ABB",
+      "name_vn": "An Bình",
+      "name_en": "An Binh Bank, JSC",
+      "bank_url": "http://www.abbank.vn"
+    },
+    {
+      "id": 25,
+      "short_name": "PVCombank",
+      "bank_code": "PVCombank",
+      "name_vn": "Đại chúng Việt Nam",
+      "name_en": "Vietnam Public Joint Stock Commercial Bank",
+      "bank_url": "http://www.pvcombank.com.vn"
+    },
+    {
+      "id": 26,
+      "short_name": "Bac A Bank",
+      "bank_code": "BAB",
+      "name_vn": "Bắc Á",
+      "name_en": "Bac A Bank, JSC",
+      "bank_url": "http://baca-bank.vn"
+    },
+    {
+        "id": 27,
+        "short_name": "VietBank",
+        "bank_code": "VBB",
+        "name_vn": "Việt Nam Thương tín",
+        "name_en": "Viet Nam Thuong Tin Joint Stock Commercial Bank",
+        "bank_url": "http://www.vietbank.com.vn"
+    },
+    {
+        "id": 28,
+        "short_name": "NCB",
+        "bank_code": "NCB",
+        "name_vn": "Quốc Dân",
+        "name_en": "National Citizen Bank, JSC",
+        "bank_url": "http://www.ncb-bank.vn"
+    },
+    {
+        "id": 29,
+        "short_name": "BVBank",
+        "bank_code": "BVB",
+        "name_vn": "Bản Việt",
+        "name_en": "Ban Viet Bank, JSC",
+        "bank_url": "https://bvbank.net.vn"
+    },
+    {
+        "id": 30,
+        "short_name": "Viet A Bank",
+        "bank_code": "VAB",
+        "name_vn": "Việt Á",
+        "name_en": "Viet A Bank, JSC",
+        "bank_url": "http://www.vietabank.com.vn"
+    },
+    {
+        "id": 31,
+        "short_name": "DongA Bank",
+        "bank_code": "DongA Bank",
+        "name_vn": "Đông Á",
+        "name_en": "Dong A Bank, JSC",
+        "bank_url": "http://www.dongabank.com.vn"
+    },
+    {
+        "id": 32,
+        "short_name": "PGBank",
+        "bank_code": "PGB",
+        "name_vn": "Thịnh vượng và Phát triển",
+        "name_en": "Prosperity and Growth Joint Stock Commercial Bank",
+        "bank_url": "http://www.pgbank.com.vn"
+    },
+    {
+        "id": 33,
+        "short_name": "Kienlongbank",
+        "bank_code": "KLB",
+        "name_vn": "Kiên Long",
+        "name_en": "Kien Long Joint Stock Commercial Bank",
+        "bank_url": "http://www.kienlongbank.com"
+    },
+    {
+        "id": 34,
+        "short_name": "Saigonbank",
+        "bank_code": "SGB",
+        "name_vn": "Sài Gòn Công thương",
+        "name_en": "Saigon Bank for Industry and Trade, JSC",
+        "bank_url": "http://www.saigonbank.com.vn"
+    },
+    {
+        "id": 35,
+        "short_name": "Baoviet Bank",
+        "bank_code": "Baoviet Bank",
+        "name_vn": "Bảo Việt",
+        "name_en": "Bao Viet Bank, JSC",
+        "bank_url": "https://www.baovietbank.vn"
+    },
+    {
+        "id": 36,
+        "short_name": "Shinhan Bank",
+        "bank_code": "Shinhan Bank",
+        "name_vn": "Ngân hàng TNHH MTV Shinhan Việt Nam",
+        "name_en": "",
+        "bank_url": "http://www.shinhan.com.vn"
+    },
+    {
+        "id": 37,
+        "short_name": "HSBC",
+        "bank_code": "HSBC",
+        "name_vn": "Ngân hàng TNHH một thành viên HSBC Việt Nam",
+        "name_en": "",
+        "bank_url": "http://www.hsbc.com.vn"
+    },
+    {
+        "id": 38,
+        "short_name": "Standard Chartered",
+        "bank_code": "Standard Chartered",
+        "name_vn": "Ngân hàng Standard Chartered",
+        "name_en": "",
+        "bank_url": "https://www.sc.com/vn"
+    },
+    {
+        "id": 39,
+        "short_name": "Woori Bank",
+        "bank_code": "Woori Bank",
+        "name_vn": "Ngân hàng Woori Bank tại Việt Nam",
+        "name_en": "",
+        "bank_url": "https://www.woori.com.vn"
+    },
+    {
+        "id": 40,
+        "short_name": "CIMB Bank",
+        "bank_code": "CIMB Bank",
+        "name_vn": "Ngân hàng CIMB tại Việt Nam",
+        "name_en": "",
+        "bank_url": "https://www.cimbbank.com.vn"
+    },
+    {
+        "id": 41,
+        "short_name": "Public Bank",
+        "bank_code": "Public Bank",
+        "name_vn": "Ngân hàng Public Bank Việt Nam",
+        "name_en": "",
+        "bank_url": "https://www.publicbank.com.vn"
+    },
+    {
+        "id": 42,
+        "short_name": "Hong Leong Bank",
+        "bank_code": "Hong Leong Bank",
+        "name_vn": "Ngân hàng Hong Leong Việt Nam",
+        "name_en": "",
+        "bank_url": "http://www.hlb.com.my/vn"
+    },
+    {
+        "id": 43,
+        "short_name": "UOB",
+        "bank_code": "UOB",
+        "name_vn": "Ngân hàng UOB tại Việt Nam",
+        "name_en": "",
+        "bank_url": "https://www.uob.com.vn"
+    },
+    {
+        "id": 44,
+        "short_name": "ANZ",
+        "bank_code": "ANZ",
+        "name_vn": "Ngân hàng TNHH một thành viên ANZ Việt Nam",
+        "name_en": "",
+        "bank_url": "http://www.anz.com/vietnam/vn"
+    },
+    {
+      "id": 45,
+      "short_name": "NHCSXH",
+      "bank_code": "VBSP",
+      "name_vn": "Ngân hàng Chính sách xã hội Việt Nam",
+      "name_en": "Vietnam Bank for Social Policies",
+      "bank_url": "https://vbsp.org.vn"
+  },
+  {
+    "id": 46,
+    "short_name": "VDB",
+    "bank_code": "VDB",
+    "name_vn": "Ngân hàng Phát triển Việt Nam",
+    "name_en": "Vietnam Development Bank",
+    "bank_url": "https://www.vdb.gov.vn"
+}
+]
+  

@@ -1,0 +1,299 @@
+{% extends "base.html" %} {% block title %}Cá nhân{% endblock %} {% set
+menu_item = 'home' %} {% block content %}
+<h4 class="fw-bold py-3 mb-4" id="page-title">{{staff.name}}</h4>
+
+<div class="table-responsive">
+  <table id="dataTable1" class="table table-striped">
+    <thead>
+      <tr>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Số thứ tự</span>"
+        >
+          STT
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Ngày</span>"
+        >
+          Ngày
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Doanh số tổng = Doanh số Facebook + Doanh số Shopee - Hoàn</span>"
+        >
+          DST
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Doanh số Facebook</span>"
+        >
+          DSFB
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Doanh số Shopee</span>"
+        >
+          DSSP
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tiền ứng</span>"
+        >
+          Tiền ứng
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tiền thực chạy</span>"
+        >
+          Tiền thực chạy
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Giá số (thực) = Tiền thực chạy / Data</span>"
+        >
+          Giá số (thực)
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>%CPQC = Tiền ứng / Doanh số tổng (DST)</span>"
+        >
+          %CPQC
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Data</span>"
+        >
+          Data
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tỷ lệ xin số = Data / Mess</span>"
+        >
+          TLXS
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Mess</span>"
+        >
+          Mess
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Giá mess = Tiền thực chạy / Mess</span>"
+        >
+          Giá mess
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Hoàn</span>"
+        >
+          Hoàn
+        </th>
+      </tr>
+    </thead>
+    <tbody id="body-table" class="table-border-bottom-0">
+      {% for report in report_list %}
+      <tr class="table-light">
+        <th>{{report.no}}</th>
+        <th>{{report.time}}</th>
+        <th>{{report.totalRevenue}} VND</th>
+        <th>{{report.newRevenue}} VND</th>
+        <th>{{report.shopeeRevenue}} VND</th>
+        <th>{{report.advanceBudget}} VND</th>
+        <th>{{report.realBudget}} VND</th>
+        <th>{{report.cpp}} VND</th>
+        <th>{{report.cpr}}%</th>
+        <th>{{report.phoneNumber}}</th>
+        <th>{{report.ppm}}%</th>
+        <th>{{report.mess}}</th>
+        <th>{{report.bpm}} VND</th>
+        <th>{{report.refund}} VND</th>
+      </tr>
+      {%endfor%}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Tổng</th>
+        <th></th>
+        <th id="total-totalRevenue"></th>
+        <th id="total-newRevenue"></th>
+        <th id="total-shopeeRevenue"></th>
+        <th id="total-advanceBudget"></th>
+        <th id="total-realBudget"></th>
+        <th id="total-cpp"></th>
+        <th id="total-cpr"></th>
+        <th id="total-phoneNumber"></th>
+        <th id="total-ppm"></th>
+        <th id="total-mess"></th>
+        <th id="total-bpm"></th>
+        <th id="total-refund"></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+{% endblock %} {% block modal %}
+<div
+  class="modal fade"
+  id="report"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="report-title">Báo cáo ngày {{fdate}}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="user_id"
+          class="form-control"
+          value="{{user.id}}"
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Doanh số bán mới</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="newRevenue"
+                name="newRevenue"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Tiền ứng</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="advanceBudget"
+                name="advanceBudget"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Tiền thực chạy</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="realBudget"
+                name="realBudget"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Số lượng Data</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="phoneNumber"
+                name="phoneNumber"
+                class="form-control"
+                min="0"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Số mess</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="mess"
+                name="mess"
+                class="form-control"
+                min="0"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block customjs %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/user.js') }}"
+></script>
+{% endblock %}

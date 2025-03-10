@@ -1,0 +1,323 @@
+{% extends "base.html" %} {% block title %}Mục tiêu{% endblock %} {% set
+menu_item = 'baocao' %} {% set active_page = 'mt' %} {% block content %}
+<div class="card text-center">
+  <h5 class="card-header">Mục tiêu {{month}}/{{year}}</h5>
+  <table class="table">
+    <thead>
+      <tr>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Ngân sách</span>"
+        >
+          Ngân sách
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Doanh số</span>"
+        >
+          Doanh số
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Lượng số</span>"
+        >
+          Lượng số
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Giá số</span>"
+        >
+          Giá số
+        </th>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Chi phí quảng cáo</span>"
+        >
+          CPQC
+        </th>
+        {% if user.role=='admin' %}
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Thao tác</span>"
+        >
+          Thao tác
+        </th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody class="table-border-bottom-0">
+      <th>{{target_data.budget}} VND</th>
+      <th>{{target_data.revenue}} VND</th>
+      <th>{{target_data.phone}}</th>
+      <th>{{target_data.cpp}} VND</th>
+      <th>{{target_data.cpqc}}%</th>
+      {% if user.role=='admin' %}
+      <th>
+        <div class="dropdown">
+          <button
+            type="button"
+            class="btn p-0 dropdown-toggle hide-arrow"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bx bx-dots-vertical-rounded"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a
+              class="dropdown-item"
+              href="javascript:void(0);"
+              data-bs-toggle="modal"
+              data-bs-target="#edit-target"
+              ><i class="bx bx-edit-alt me-1"></i> Sửa</a
+            >
+          </div>
+        </div>
+      </th>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+<div class="card text-center mt-4">
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        {% for w in week %}
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tuần {{w.count}}: {{w.start}}/{{month}}/{{year}} - {{w.end}}/{{month}}/{{year}}</span>"
+        >
+          Tuần {{w.count}}
+        </th>
+        {% endfor %}
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Tổng</span>"
+        >
+          Tổng
+        </th>
+      </tr>
+    </thead>
+    <tbody class="table-border-bottom-0"></tbody>
+      <tr>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Ngân sách</span>"
+        >Ngân sách</th>
+        {% for w in week %}
+        <th>{{w.advanceBudget}} VND</th>
+        {% endfor %}
+        <th>{{total.budget}} VND</th>
+      </tr>
+      <tr>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Doanh số</span>"
+        >Doanh số</th>
+        {% for w in week %}
+        <th>{{w.totalRevenue}} VND</th>
+        {% endfor %}
+        <th>{{total.revenue}} VND</th>
+      </tr>
+      <tr>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Lượng số</span>"
+        >Lượng số</th>
+        {% for w in week %}
+        <th>{{w.phoneNumber}}</th>
+        {% endfor %}
+        <th>{{total.phone}}</th>
+      </tr>
+      <tr>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Giá số = Ngân sách / Lượng số</span>"
+        >Giá số</th>
+        {% for w in week %}
+        <th>{{w.cpp}} VND</th>
+        {% endfor %}
+        <th>{{total.cpp}} VND</th>
+      </tr>
+      <tr>
+        <th
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="top"
+          data-bs-html="true"
+          data-bs-original-title="<span>Chi phí quảng cáo = Ngân sách / Doanh số</span>"
+        >CPQC</th>
+        {% for w in week %}
+        <th>{{w.cpr}}%</th>
+        {% endfor %}
+        <th>{{total.cpr}}%</th>
+      </tr>
+      <tr>
+        <th data-bs-toggle="tooltip"
+        data-bs-offset="0,4"
+        data-bs-placement="top"
+        data-bs-html="true"
+        data-bs-original-title="<span>% Doanh số mục tiêu = Doanh số / Doanh số mục tiêu</span>">%DSMT</th>
+        {% for w in week %}
+        <th>{{w.dsmt}}%</th>
+        {% endfor %}
+        <th>{{total.dsmt}}%</th>
+      </tr>
+      <tr>
+        <th data-bs-toggle="tooltip"
+        data-bs-offset="0,4"
+        data-bs-placement="top"
+        data-bs-html="true"
+        data-bs-original-title="<span>% Lượng số mục tiêu = Lượng số / Lượng số mục tiêu</span>">%LSMT</th>
+        {% for w in week %}
+        <th>{{w.lsmt}}%</th>
+        {% endfor %}
+        <th>{{total.lsmt}}%</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+  <button class="btn btn-primary btn-md me-1" onclick="lastMonth({{month}}, {{year}})">
+    <i class="bx bx-chevron-left"></i> Tháng trước
+  </button>
+  <button class="btn btn-primary btn-md" onclick="nextMonth({{month}}, {{year}})">
+    Tháng sau <i class="bx bx-chevron-right"></i>
+  </button>
+</div>
+{% endblock %} {% block modal %}
+{% if user.role == 'admin' %}
+<div
+  class="modal fade"
+  id="edit-target"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="target-title">Thay đổi mục tiêu {{month}}/{{year}}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="user_id"
+          class="form-control"
+          value="{{user.id}}"
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Ngân sách mục tiêu</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="budget"
+                name="budget"
+                class="form-control"
+                min="0"
+                value="{{target_data.budget.replace(',', '')}}"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Doanh số mục tiêu</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="revenue"
+                name="revenue"
+                class="form-control"
+                min="0"
+                value="{{target_data.revenue.replace(',', '')}}"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Lượng số mục tiêu</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="phone"
+                name="phone"
+                class="form-control"
+                min="0"
+                value="{{target_data.phone.replace(',', '')}}"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div> {% endif %}
+{% endblock %} {% block customjs %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/target.js') }}"
+></script>
+{% endblock %}

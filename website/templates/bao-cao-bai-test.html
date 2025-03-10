@@ -1,0 +1,549 @@
+{% extends "base.html" %} {% block title %}Báo cáo bài test{% endblock %} {% set
+menu_item = 'baocao' %} {% set active_page = 'bcbtest' %} {% block content %}
+<h4 class="fw-bold py-3 mb-4">
+  <span class="text-muted fw-light">Báo cáo /</span>
+  Báo cáo bài test
+</h4>
+<form method="POST">
+  <input
+    type="hidden"
+    name="form_id"
+    class="form-control"
+    value="form-date-filter"
+  />
+  <div class="d-flex justify-content-end">
+    <div class="col-xl-2 me-2">
+      <div class="input-group input-group-merge">
+        <span class="input-group-text">Từ:</span>
+        <input
+          class="form-control"
+          type="date"
+          id="dateInput1"
+          name="dateInput1"
+          value="{{date1}}"
+        />
+      </div>
+    </div>
+    <div class="col-xl-2 me-2">
+      <div class="input-group input-group-merge">
+        <span class="input-group-text">Đến:</span>
+        <input
+          class="form-control"
+          type="date"
+          id="dateInput2"
+          name="dateInput2"
+          value="{{date2}}"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Lọc</button>
+  </div>
+</form>
+<div class="d-flex justify-content-end" style="margin-top: 10px">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#new-post"
+  >
+    <i class="bx bx-plus-medical bx-sd me-1"></i>Thêm bài test
+  </button>
+</div>
+<div class="table-responsive">
+  <table id="dataTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Ngày</th>
+        <th>MKT</th>
+        <th>Link</th>
+        <th>Nội dung</th>
+        <th>Loại</th>
+        <th>Ngân sách</th>
+        <th>CPM</th>
+        <th>CPC</th>
+        <th>CTR</th>
+        <th>CPA</th>
+        <th>CP/CPA</th>
+        <th>Đơn</th>
+        <th>CP/Đơn</th>
+        <th>Đánh giá</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody id="body-table" class="table-border-bottom-0">
+      {% for staff in staff_list %} {% for post in post_list %} {% if
+      post.user_id == staff.id %}
+      <tr class="table-light">
+        <th>{{post.time}}</th>
+        <th>
+          <a href="/user/{{staff.id}}">
+            <img
+              src="{{staff.avatar_url}}"
+              class="w-px-40 h-auto rounded-circle me-2"
+            />
+            {{staff.name}}</a
+          >
+        </th>
+        <th><a href="{{post.link}}" target="_blank">LINK</a></th>
+        <th>{{post.content}}</th>
+        <th>{{post.type}}</th>
+        <th>{{post.budget}} VND</th>
+        <th>{{post.cpm}} VND</th>
+        <th>{{post.cpc}} VND</th>
+        <th>{{post.ctr}}%</th>
+        <th>{{post.cpa}} VND</th>
+        <th>{{post.cpPerCpa}} VND</th>
+        <th>{{post.order}}</th>
+        <th>{{post.cpPerOrder}} VND</th>
+        <th>{{post.review}}</th>
+        <th>
+          {% if user.id == post.user_id or user.role == 'admin' %}
+          <div class="dropdown">
+            <button
+              type="button"
+              class="btn p-0 dropdown-toggle hide-arrow"
+              data-bs-toggle="dropdown"
+            >
+              <i class="bx bx-dots-vertical-rounded"></i>
+            </button>
+            <div class="dropdown-menu">
+              <a
+                class="dropdown-item"
+                href="javascript:void(0);"
+                data-bs-toggle="modal"
+                data-bs-target="#edit-post"
+                onclick="editPost({{post}})"
+                ><i class="bx bx-edit-alt me-1"></i> Sửa</a
+              >
+              <a
+                class="dropdown-item"
+                href="javascript:void(0);"
+                onclick="deletePost({{post.id}})"
+                ><i class="bx bx-trash me-1"></i> Xoá</a
+              >
+            </div>
+          </div>
+          {%endif%}
+        </th>
+      </tr>
+      {%endif%} {%endfor%} {%endfor%}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Tổng</th>
+        <th></th>
+        <th id="total-post"></th>
+        <th></th>
+        <th></th>
+        <th id="total-budget"></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th id="total-order"></th>
+        <th id="total-budgetPerOrder"></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+{% endblock %} {% block modal %}
+<div
+  class="modal fade"
+  id="new-post"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="post-title">Thêm bài mới</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-add"
+        />
+        <input
+          type="hidden"
+          name="user_id"
+          class="form-control"
+          value="{{user.id}}"
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Link</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="link"
+                name="link"
+                class="form-control"
+                placeholder="Link bài..."
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Nội dung</label>
+            <div class="input-group input-group-merge text-nowrap">
+              <textarea
+                type="text"
+                id="content"
+                name="content"
+                class="form-control"
+                placeholder="Nội dung bài..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Loại</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="type"
+                name="type"
+                class="form-control"
+                placeholder="(Video, ảnh, reel,...)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Ngân sách</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="budget"
+                name="budget"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label class="form-label">CPM</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="cpm"
+                name="cpm"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+          <div class="col mb-3">
+            <label class="form-label">CPC</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="cpc"
+                name="cpc"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label class="form-label">CTR</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="ctr"
+                name="ctr"
+                class="form-control"
+                placeholder="1.02"
+                step="any"
+                min="0"
+              />
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+          <div class="col mb-3">
+            <label class="form-label">CPA</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="cpa"
+                name="cpa"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Đơn</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="order"
+                name="order"
+                class="form-control"
+                min="0"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Đánh giá</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="review"
+                name="review"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="edit-post"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  style="display: none"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit-post-title">
+          Chỉnh sửa thông tin bài test
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          name="form_id"
+          class="form-control"
+          value="form-edit"
+        />
+        <input
+          type="hidden"
+          id="edit-post_id"
+          name="edit-post_id"
+          class="form-control"
+        />
+        <input
+          type="hidden"
+          id="edit-time"
+          name="edit-time"
+          class="form-control"
+        />
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Link</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="edit-link"
+                name="edit-link"
+                class="form-control"
+                placeholder="Link bài..."
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Nội dung</label>
+            <div class="input-group input-group-merge text-nowrap">
+              <textarea
+                type="text"
+                id="edit-content"
+                name="edit-content"
+                class="form-control"
+                placeholder="Nội dung bài..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Loại</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="edit-type"
+                name="edit-type"
+                class="form-control"
+                placeholder="(Video, ảnh, reel,...)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Ngân sách</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="edit-budget"
+                name="edit-budget"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label class="form-label">CPM</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="edit-cpm"
+                name="edit-cpm"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+          <div class="col mb-3">
+            <label class="form-label">CPC</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="edit-cpc"
+                name="edit-cpc"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-3">
+            <label class="form-label">CTR</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="edit-ctr"
+                name="edit-ctr"
+                class="form-control"
+                placeholder="1.02"
+                step="any"
+                min="0"
+              />
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+          <div class="col mb-3">
+            <label class="form-label">CPA</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="edit-cpa"
+                name="edit-cpa"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Đơn</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                id="edit-order"
+                name="edit-order"
+                class="form-control"
+                min="0"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Đánh giá</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="edit-review"
+                name="edit-review"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block customjs %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static',filename='js/bao-cao-bai-test.js') }}"
+></script>
+{% endblock %}
